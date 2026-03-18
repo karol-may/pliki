@@ -8,10 +8,8 @@
 </head>
 <body>
     <?php
-        $poloczenie = mysqli_connect("localhost", "root", "", "smoki");
-
+        $poloczenie = mysqli_connect("localhost", "root", "", "smoki");        
     ?>
-
 
     <header><h2>Poznaj smoki!</h2></header>
     <nav>
@@ -23,6 +21,9 @@
     </nav>
     <main>
         <section>
+            <?php
+               $pochodzenie = $_POST['pochodzenie'] ?? false;
+            ?>
             <h3>Baza Smoków</h3>
             <form method="POST">
                 <select name="pochodzenie">
@@ -31,19 +32,30 @@
                         if ($poloczenie) {
                             $wynik = mysqli_query($poloczenie,$sql1);
                             while ($row = mysqli_fetch_assoc($wynik)){
-                                echo "<option>".$row['pochodzenie']."</option>";
+                                $isSelected = ($pochodzenie==$row['pochodzenie'])?"selected":"";
+                                echo "<option ".$isSelected.">".$row['pochodzenie']."</option>";
                             }
-
                         }
 
-                    ?>
-                    
+                    ?>                    
                 </select>
                 <button type="submit">Szukaj</button>
             </form>
+
             <table>
                 <tr><th>Nazwa</th><th>Długość</th><th>Szerokość</th></tr>
-                <tr><td></td><td>Skrypt2</td><td></td></tr>
+                <?php
+                $sql2 = "SELECT nazwa, dlugosc, szerokosc FROM `smok` WHERE pochodzenie = '$pochodzenie';";
+
+                if ($pochodzenie) {
+                    $wynik = mysqli_query($poloczenie,$sql2);
+                    while ($row = mysqli_fetch_assoc($wynik)){
+                       echo "<tr><td>".$row['nazwa']."</td><td>".$row['dlugosc']."</td><td>".$row['szerokosc']."</td></tr>";
+                    }
+                    
+                }
+
+                ?>
             </table>
         </section>        
         <section>
