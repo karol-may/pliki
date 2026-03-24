@@ -14,13 +14,13 @@
     <header><h2>Poznaj smoki!</h2></header>
     <nav>
         <ul>
-            <li>Baza</li>
-            <li>Opisy</li>
-            <li>Galeria</li>
+            <li data-id="baza">Baza</li>
+            <li data-id="opisy">Opisy</li>
+            <li data-id="galeria">Galeria</li>
         </ul>
     </nav>
     <main>
-        <section>
+        <section id="baza">
             <?php
                $pochodzenie = $_POST['pochodzenie'] ?? false;
             ?>
@@ -58,7 +58,7 @@
                 ?>
             </table>
         </section>        
-        <section>
+        <section id="opisy">
             <h3>Opisy smoków</h3>
             <dl>
                 <dt>Smok czerwony</dt>
@@ -71,7 +71,7 @@
                 <dd>Pochodzi z Francji. Ma 100 lat. Żywi się owocami morza. Jest natchnieniem dla najlepszych malarzy. Często im pozuje. Smok ten jest przyjacielem ludzi i czasami im pomaga. Jest jednak próżny i nie lubi się przepracowywać.</dd>                
             </dl>
         </section>        
-        <section>
+        <section id="galeria">
             <h3>Galeria</h3>
             <img src="smok1.JPG" alt="Smok czerwony">
             <img src="smok2.JPG" alt="Smok wielki">
@@ -83,5 +83,33 @@
     <?php
         mysqli_close($poloczenie);
     ?>
+
+    <script>
+        
+
+        let blocks = document.getElementsByTagName("li");
+        let sections = document.getElementsByTagName("section");
+
+        for (let block of blocks){
+            block.addEventListener("click", (e)=>{
+                setDefaultStyles();
+                e.target.style.backgroundColor = "MistyRose";   
+                
+                let x = document.getElementById(e.target.getAttribute("data-id"));
+                x.style.display = "block";
+                
+            });
+        }
+
+        function setDefaultStyles(){
+            for (let block of blocks){
+                block.style.backgroundColor = "#FFAEA5";
+            }
+            for (let section of sections){
+                section.style.display = "none";
+            }
+        }
+      
+    </script>
 </body>
 </html>
